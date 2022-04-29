@@ -6,7 +6,7 @@ spring:
   # 数据源配置
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
-    url: jdbc:mysql//localhost:3306/secdkill?useUnicode=true&characterEncoding=UTF-8&serverTimezone=Aisa/Shanghai
+    url: jdbc:mysql://localhost:3306/secdkill?useUnicode=true&characterEncoding=UTF-8&serverTimezone=Asia/Shanghai
     username: root
     password:
     # 连接池配置
@@ -22,7 +22,7 @@ spring:
 
 mybatis:
   # 映射 mapper 文件
-  mapper-locations: classpath*/mappers/*Mapper.xml
+  mapper-locations: classpath*:/mappers/*Mapper.xml
   # 配置 Mybatis 数据返回类型别名
   type-aliases-package: shu.xyj.secdkill.pojo
 
