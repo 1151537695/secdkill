@@ -16,6 +16,7 @@ public enum RespBeanEnum {
     // 登陆时错误
     LOGIN_ERROR(500210, "用户名或密码错误"),
     PHONEPATTER_ERROR(500211, "手机号码格式错误"),
+    Bind_ERROR(500212, "参数异常"),
     ;
 
     private final Integer code;

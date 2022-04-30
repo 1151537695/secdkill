@@ -21,6 +21,8 @@ public class RespBean {
         return new RespBean(RespBeanEnum.SUCCESS.getCode(), RespBeanEnum.SUCCESS.getMessage(), obj);
     }
 
+
+    // 错误的情况有很多，用枚举封装具体的code和message
     public static RespBean error(RespBeanEnum respBeanEnum) {
         return new RespBean(respBeanEnum.getCode(), respBeanEnum.getMessage(), null);
     }
