@@ -19,6 +19,16 @@ spring:
       max-lifetime: 1800000       # 已经连接的最大存活时间
       connection-timeout: 30000   # 连接过程中的超时时间
       connection-test-query: SELECT 1   # 判断连接是否可用的查询语句
+  redis:
+    host: localhost
+    port: 6379
+    database: 0
+    timeout: 10000ms        # 读取数据超时时间
+    lettuce:
+      pool:
+        max-active: 8       # 最大连接数
+        max-wait: 10000ms   # 最大链接阻塞时间
+
 
 mybatis:
   # 映射 mapper 文件

@@ -1,16 +1,21 @@
 package shu.xyj.secdkill.service.impl;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Service;
-import org.thymeleaf.util.StringUtils;
+import shu.xyj.secdkill.exception.GlobalException;
 import shu.xyj.secdkill.mapper.UserMapper;
 import shu.xyj.secdkill.pojo.User;
 import shu.xyj.secdkill.service.IUserService;
+import shu.xyj.secdkill.utils.CookieUtil;
 import shu.xyj.secdkill.utils.MD5Util;
-import shu.xyj.secdkill.utils.ValidatorUtil;
+import shu.xyj.secdkill.utils.UUIDUtil;
 import shu.xyj.secdkill.vo.LoginVo;
 import shu.xyj.secdkill.vo.RespBean;
 import shu.xyj.secdkill.vo.RespBeanEnum;
+
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 
 @Service
 public class UserServiceImpl implements IUserService {
@@ -18,33 +23,65 @@ public class UserServiceImpl implements IUserService {
     @Autowired
     private UserMapper userMapper;
 
+    @Autowired
+    private RedisTemplate redisTemplate;
+
     @Override
-    public RespBean doLogin(LoginVo loginVo) {
+    public RespBean doLogin(LoginVo loginVo, HttpServletRequest request, HttpServletResponse response) {
         String mobile = loginVo.getMobile();
         String password = loginVo.getPassword();
 
         // 服务器内部也要参数校验
-        if(StringUtils.isEmpty(password) || StringUtils.isEmpty(mobile)) {
-            return RespBean.error(RespBeanEnum.LOGIN_ERROR);
-        }
+        // 使用 validation 组件进行校验
+//        if(StringUtils.isEmpty(password) || StringUtils.isEmpty(mobile)) {
+//            return RespBean.error(RespBeanEnum.LOGIN_ERROR);
+//        }
+//
+//        if (!ValidatorUtil.isMobile(mobile)) {
+//            return RespBean.error(RespBeanEnum.PHONEPATTER_ERROR);
+//        }
 
-        if (!ValidatorUtil.isMobile(mobile)) {
-            return RespBean.error(RespBeanEnum.PHONEPATTER_ERROR);
-        }
-
-        System.out.println("根据userMapper查询用户");
         User user = userMapper.selectById(mobile);
 
         if(null == user) {
-            return RespBean.error(RespBeanEnum.LOGIN_ERROR);
+            // return RespBean.error(RespBeanEnum.LOGIN_ERROR);
+
+            // 自定义异常类抛出异常，在全局异常中返回错误信息
+            throw new GlobalException(RespBeanEnum.LOGIN_ERROR);
         }
 
         if(!checkPassword(password, user)) {
-            return RespBean.error(RespBeanEnum.LOGIN_ERROR);
+            // return RespBean.error(RespBeanEnum.LOGIN_ERROR);
+
+            // 自定义异常类抛出异常，在全局异常中返回错误信息
+            throw new GlobalException(RespBeanEnum.LOGIN_ERROR);
         }
+
+
+        // 登录成功设置 session 和 cookie
+        String token = UUIDUtil.uuid();
+
+        // 用 redis 实现分布式 session，不直接使用 session或者spring session
+        //request.getSession().setAttribute(token, user);
+        redisTemplate.opsForValue().set("user:" + token, user);
+
+        CookieUtil.setCookie(request, response, "userToken", token);
 
         return RespBean.success();
     }
+
+    @Override
+    public User getUserByCookie(HttpServletRequest request, HttpServletResponse response, String token) {
+        if (null == token) {
+            return null;
+        }
+        User user = (User) redisTemplate.opsForValue().get("user:" + token);
+        if(null != user) {
+            CookieUtil.setCookie(request, response, "userToken", token);
+        }
+        return user;
+    }
+
 
     private boolean checkPassword(String pwd, User user) {
         if(MD5Util.serverPassToDBPass(pwd, user.getSalt()).equals(user.getPassword())) return true;
