@@ -4,7 +4,7 @@
 <mapper namespace="shu.xyj.secdkill.mapper.UserMapper">
 
     <!--  结果映射  -->
-    <resultMap id="BaseResultMap" type="shu.xyj.secdkill.pojo.User">
+    <resultMap id="User" type="shu.xyj.secdkill.pojo.User">
         <id column="id" property="id" />
         <result column="nickname" property="nickname" />
         <result column="password" property="password" />
@@ -19,7 +19,7 @@
         id, nickname, password, salt, head, register_date, last_login_date, login_count
     </sql>
 
-    <select id="selectById" resultMap="BaseResultMap">
+    <select id="selectById" resultMap="User">
         select * from t_user where id=#{id};
     </select>
     

@@ -1,5 +1,6 @@
 package shu.xyj.secdkill.service.impl;
 
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Service;
@@ -18,6 +19,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 @Service
+@Slf4j
 public class UserServiceImpl implements IUserService {
 
     @Autowired
@@ -28,8 +30,12 @@ public class UserServiceImpl implements IUserService {
 
     @Override
     public RespBean doLogin(LoginVo loginVo, HttpServletRequest request, HttpServletResponse response) {
+        log.info("UserServiceImpl   doLogin..");
+
         String mobile = loginVo.getMobile();
         String password = loginVo.getPassword();
+
+        log.info("用户名及密码: " + mobile + ";  " + password);
 
         // 服务器内部也要参数校验
         // 使用 validation 组件进行校验
@@ -43,12 +49,16 @@ public class UserServiceImpl implements IUserService {
 
         User user = userMapper.selectById(mobile);
 
+        log.info("查询到的用户信息: " + user);
+
         if(null == user) {
             // return RespBean.error(RespBeanEnum.LOGIN_ERROR);
 
             // 自定义异常类抛出异常，在全局异常中返回错误信息
             throw new GlobalException(RespBeanEnum.LOGIN_ERROR);
         }
+        log.info("查到的用户为空..");
+
 
         if(!checkPassword(password, user)) {
             // return RespBean.error(RespBeanEnum.LOGIN_ERROR);

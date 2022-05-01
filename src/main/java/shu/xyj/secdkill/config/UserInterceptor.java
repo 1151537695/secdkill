@@ -26,21 +26,15 @@ public class UserInterceptor implements HandlerInterceptor {
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
         log.info("拦截器 --- > 处理请求之 前 拦截");
-
         String token = CookieUtil.getCookieValue(request, "userToken");
-
-        log.info("token的值 -------->  " + token);
 
         if (StringUtils.isEmpty(token)) {
 //            request.getRequestDispatcher("/login").forward(request, response);
-            log.info("token为空，重定向..");
             response.sendRedirect("/login/toLogin");
             return false;
         }
 
         User user = userService.getUserByCookie(request, response, token);
-
-        log.info("User from redis: " + user);
 
         if (null != user) {
             CookieUtil.setCookie(request, response, "userToken", token);
@@ -49,7 +43,7 @@ public class UserInterceptor implements HandlerInterceptor {
             response.sendRedirect("/login/toLogin");
             return false;
         }
-        log.info("拦截器继续执行 ------ ");
+
         return true;
     }
 

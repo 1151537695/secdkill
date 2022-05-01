@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="shu.xyj.secdkill.mapper.SecdkillGoodsMapper">
+
+    <resultMap id="SecdkillGoods" type="shu.xyj.secdkill.pojo.SecdkillGoods">
+        <id column="id" property="id" />
+        <result column="goods_id" property="goodsId" />
+        <result column="secdkill_price" property="secdkillPrice" />
+        <result column="stock_count" property="stockCount" />
+        <result column="start_date" property="startDate" />
+        <result column="end_date" property="endDate" />
+    </resultMap>
+
+</mapper>
