@@ -28,9 +28,10 @@
 注意点：
     - 获取cookie时要添加注解，@CookieValue("cookie的名称")
     - 使用redisTemplate时，注意key和value的序列化以及不同序列化之间的区别(编写redis的配置类)
-        - JdkSerializationRedisSerializer
-        - Jackson2JsonRedisSerializer
-        - GenericJackson2JsonRedisSerializer
+        - JdkSerializationRedisSerializer，需要序列化的对象实现 Serializable 接口
+        - Jackson2JsonRedisSerializer，要传入Object对象
+        - GenericJackson2JsonRedisSerializer，
+        - StringRedisSerializer，效率最高，但可读性较差
     - 使用拦截器实现用户未登录拦截功能，需要跳转到登录页面，需要区别请求转发和重定向的区别
         - request.getRequestDispatcher(URI).forward(request, response);
         - response.sendRedirect("/login/toLogin");
@@ -43,9 +44,22 @@
     - 前端存储：
         - 优点：不占用服务器资源
         - 缺点：存在安全风险；每次都要携带用户信息，占用外网带宽；数据大小受限制；
-    - session粘滞(通过Hash可以每次把请求发送到同一台机器上)
+    - session粘滞(通过Hash可以每次把请求发送到同一台机器上)，可以通过Nginx的ip-hash策略实现
         - 优点：无需修改代码，可以水平扩展
         - 缺点：增加新机器会重新Hash，导致重新登录；服务器重启需要重新登录；
     - 数据库存储
         - 优点：安全，容易水平扩展
-        - 缺点：系统复杂度变高
+        - 缺点：系统复杂度变高，多了网络调用(需要请求redis)
+
+
+2022/5/1
+创建商品表、订单表、商品秒杀表、订单秒杀表
+实现mapper接口和对应的XXXMapper.xml文件
+
+
+踩过的坑：
+    - 对于传输所用的Vo类，如果从数据库直接获取Vo对象或者集合时，需要在XXXMapper.xml中定义相应的resultMap，不然返回的结果里都是null值(数据库字段和Vo字段不匹配造成的)
+
+
+注意点：
+    - left join 和 inner join 的区别

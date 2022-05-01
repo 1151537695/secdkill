@@ -7,22 +7,27 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.CookieValue;
 import org.springframework.web.bind.annotation.RequestMapping;
 import shu.xyj.secdkill.pojo.User;
+import shu.xyj.secdkill.service.IGoodsService;
 import shu.xyj.secdkill.service.IUserService;
 import shu.xyj.secdkill.utils.CookieUtil;
+import shu.xyj.secdkill.vo.GoodsVo;
 import shu.xyj.secdkill.vo.RespBean;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
+import java.util.List;
 
 @Controller
 @Slf4j
 @RequestMapping("/goods")
 public class GoodsController {
 
-
     @Autowired
     private IUserService userService;
+
+    @Autowired
+    private IGoodsService goodsService;
 
     // 一定要用 @CookieValue("userTicket") 获取指定 cookie 的值
 //    @RequestMapping("/toList")
@@ -51,10 +56,14 @@ public class GoodsController {
     @RequestMapping("/toList")
     public String toList(Model model, HttpServletRequest request, HttpServletResponse response) {
         String token = CookieUtil.getCookieValue(request, "userToken");
-
         User user = userService.getUserByCookie(request, response, token);
 
         model.addAttribute("user", user);
+        List<GoodsVo> goodsVoList = goodsService.findGoodsVoList();
+
+        goodsVoList.stream().forEach(System.out::println);
+
+        model.addAttribute("goodsList", goodsVoList);
         return "goodsList";
     }
 }
