@@ -50,7 +50,7 @@ create table if not exists `t_order`(
     `goods_count` INT(11) DEFAULT '0' COMMENT '下单的商品数量',
     `goods_price` DECIMAL(10,2) DEFAULT '0.00' COMMENT '商品价格',
     `order_channel` TINYINT(4) DEFAULT '0' COMMENT '1 pc;2 Android; 3 IOS',
-    `statue` TINYINT(4) DEFAULT '0' COMMENT '订单状态,0 新建未支付; 1 已支付; 2 已发货;3 已收货; 4 已退款; 5 已完成',
+    `status` TINYINT(4) DEFAULT '0' COMMENT '订单状态,0 新建未支付; 1 已支付; 2 已发货;3 已收货; 4 已退款; 5 已完成',
     `create_date` datetime DEFAULT NULL COMMENT '订单创建时间',
     `pay_date` datetime DEFAULT NULL COMMENT '订单支付时间',
     PRIMARY KEY(`id`)
@@ -65,3 +65,13 @@ create table if not exists `t_secdkill_order`(
     `goods_id` BIGINT(20) DEFAULT NULL COMMENT '商品ID',
     PRIMARY KEY(`id`)
 ) ENGINE=INNODB DEFAULT CHARSET=utf8mb4;
+
+insert into t_user(id, nickname, password, salt) values(15868829244, '可乐加冰', '8852c18abeeb7a953171c2061404c472', '1a2b3c4d');
+
+insert into t_goods values(1, 'Apple iPhone 13 mini', 'Apple iPhone 13 mini', '/imgs/iPhone13mini.jpg', 'Apple iPhone 13 mini (A2629) 128GB 蓝色 手机 支持移动联通电信5G【赠大王卡首月免月租】', 5199, 100),
+                          (2, 'Apple iPhone 13', 'Apple iPhone 13', '/imgs/iPhone13.jpg', 'Apple iPhone 13 (A2634) 128GB 午夜色 支持移动联通电信5G 双卡双待手机', 5999, 100),
+                          (3, 'Apple iPhone 13 Pro', 'Apple iPhone 13 Pro', '/imgs/iPhone13Pro.jpg', 'Apple iPhone 13 Pro (A2639) 128GB 远峰蓝色 支持移动联通电信5G 双卡双待手机', 7999, 100),
+                          (4, 'Apple iPhone 13 Pro Max', 'Apple iPhone 13 Pro Max', '/imgs/iPhone13ProMax.jpg', 'Apple iPhone 13 Pro Max (A2644) 128GB 远峰蓝色 支持移动联通电信5G 双卡双待手机', 8999, 100);
+
+insert into t_secdkill_goods values(1, 1, 509, 10, '2022-05-01 09:00:00', '2022-05-01 14:00:00'),
+                                   (2, 2, 599, 10, '2022-05-01 09:00:00', '2022-05-01 14:00:00');

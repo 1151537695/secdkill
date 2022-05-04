@@ -7,6 +7,8 @@ import java.io.Serializable;
 @Data
 public class SecdkillOrder implements Serializable {
 
+    private static final long serialVersionUID = 1l;
+
     private Long id;
 
     private Long userId;

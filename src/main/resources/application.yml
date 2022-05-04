@@ -1,4 +1,5 @@
 spring:
+
   thymeleaf:
     # 不开启缓存
     cache: false
@@ -8,7 +9,7 @@ spring:
     driver-class-name: com.mysql.cj.jdbc.Driver
     url: jdbc:mysql://localhost:3306/secdkill?useUnicode=true&characterEncoding=UTF-8&serverTimezone=Asia/Shanghai
     username: root
-    password:
+    password: 660201
     # 连接池配置
     hikari:
       pool-name: DataHikariCP     # 连接池别名

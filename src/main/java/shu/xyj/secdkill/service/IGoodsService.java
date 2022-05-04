@@ -6,4 +6,6 @@ import java.util.List;
 
 public interface IGoodsService {
     List<GoodsVo> findGoodsVoList();
+
+    GoodsVo findGoodsVoByGoodsId(Long goodsId);
 }

@@ -15,8 +15,16 @@
         <result column="status" property="status" />
         <result column="create_date" property="createDate" />
         <result column="pay_date" property="payDate" />
-
     </resultMap>
 
+    <insert id="insert" useGeneratedKeys="true" keyProperty="id" parameterType="shu.xyj.secdkill.pojo.Order">
+        insert into t_order(user_id, goods_id, delivery_addr_id, goods_name, goods_count, goods_price, order_channel, status, create_date)
+        values (#{userId}, #{goodsId}, #{deliveryAddrId}, #{goodsName}, #{goodsCount}, #{goodsPrice}, #{orderChannel}, #{status}, #{createDate})
+    </insert>
+
+
+    <select id="getOrderById" resultMap="Order">
+        select * from t_order where id = #{orderId}
+    </select>
 
 </mapper>

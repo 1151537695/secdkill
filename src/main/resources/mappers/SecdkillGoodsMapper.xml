@@ -12,4 +12,19 @@
         <result column="end_date" property="endDate" />
     </resultMap>
 
+    <select id="findSecdkillGoodsByGoodsId" resultMap="SecdkillGoods">
+        select * from t_secdkill_goods where goods_id = #{id}
+    </select>
+
+    <update id="updateById" parameterType="shu.xyj.secdkill.pojo.SecdkillGoods">
+        update t_secdkill_goods
+        set  stock_count = #{stockCount}
+        where id = #{id}
+    </update>
+
+    <update id="updateByIdIfStockExist" parameterType="shu.xyj.secdkill.pojo.SecdkillGoods">
+        update t_secdkill_goods
+        set  stock_count = #{stockCount}
+        where id = #{id} and stock_count > 0
+    </update>
 </mapper>

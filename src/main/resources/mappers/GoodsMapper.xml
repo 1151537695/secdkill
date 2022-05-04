@@ -49,4 +49,25 @@
             g.id = sg.goods_id
     </select>
 
+    <select id="findGoodsVoByGoodsId" resultMap="GoodsVo">
+        SELECT
+            g.id,
+            g.goods_name,
+            g.goods_title,
+            g.goods_img,
+            g.goods_detail,
+            g.goods_price,
+            g.goods_stock,
+            sg.secdkill_price,
+            sg.stock_count,
+            sg.start_date,
+            sg.end_date
+        FROM
+            t_goods g
+                INNER JOIN  t_secdkill_goods AS sg
+        ON
+            g.id = sg.goods_id
+        where g.id = #{goodsId}
+    </select>
+
 </mapper>

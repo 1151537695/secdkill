@@ -9,6 +9,8 @@ import java.util.Date;
 @Data
 public class Order implements Serializable {
 
+    private static final long serialVersionUID = 1l;
+
     private Long id;
 
     private Long userId;
