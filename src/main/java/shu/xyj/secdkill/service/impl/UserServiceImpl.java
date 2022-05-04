@@ -57,7 +57,6 @@ public class UserServiceImpl implements IUserService {
             // 自定义异常类抛出异常，在全局异常中返回错误信息
             throw new GlobalException(RespBeanEnum.LOGIN_ERROR);
         }
-        log.info("查到的用户为空..");
 
 
         if(!checkPassword(password, user)) {
@@ -77,7 +76,7 @@ public class UserServiceImpl implements IUserService {
 
         CookieUtil.setCookie(request, response, "userToken", token);
 
-        return RespBean.success();
+        return RespBean.success(token);
     }
 
     @Override

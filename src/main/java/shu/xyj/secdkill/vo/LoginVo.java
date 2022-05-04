@@ -1,8 +1,9 @@
 package shu.xyj.secdkill.vo;
 
-import com.sun.istack.internal.NotNull;
 import lombok.Data;
 import shu.xyj.secdkill.validator.IsMobile;
+
+import javax.validation.constraints.NotNull;
 
 @Data
 public class LoginVo {

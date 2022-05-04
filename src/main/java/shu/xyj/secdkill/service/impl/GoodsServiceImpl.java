@@ -15,12 +15,14 @@ public class GoodsServiceImpl implements IGoodsService {
     @Autowired
     private GoodsMapper goodsMapper;
 
-    @Autowired
-    private SecdkillGoodsMapper secdkillGoodsMapper;
-
 
     @Override
     public List<GoodsVo> findGoodsVoList() {
         return goodsMapper.findGoodsVo();
+    }
+
+    @Override
+    public GoodsVo findGoodsVoByGoodsId(Long goodsId) {
+        return goodsMapper.findGoodsVoByGoodsId(goodsId);
     }
 }

@@ -10,5 +10,12 @@
         <result column="goods_id" property="goodsId" />
     </resultMap>
 
+    <select id="findSecdkillOrderByUserAndGoods" resultMap="SecdkillOrder">
+        select * from t_secdkill_order where user_id = #{userId} and goods_id = #{goodsId}
+    </select>
 
+    <insert id="insert" parameterType="shu.xyj.secdkill.pojo.SecdkillOrder">
+        insert into t_secdkill_order(user_id, order_id, goods_id)
+        values (#{userId}, #{orderId}, #{goodsId})
+    </insert>
 </mapper>

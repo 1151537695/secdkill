@@ -31,7 +31,9 @@ public class WebMVCConfig implements WebMvcConfigurer {
     @Override
     public void addInterceptors(InterceptorRegistry registry) {
         registry.addInterceptor(userInterceptor)
-                .addPathPatterns("/goods/*");
+                .addPathPatterns("/goods/*")
+                .addPathPatterns("/secdkill/*")
+                .addPathPatterns("/demo/*");
     }
 
 
